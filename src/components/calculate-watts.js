@@ -48,8 +48,9 @@ class CalculateWatts extends React.Component {
                 How long is your LED strip? (in meter)
               </h3>
               <Slider
-                min={1}
+                min={0.5}
                 max={20}
+                step={0.5}
                 defaultValue={this.state.length}
                 unit=" meter"
                 onChangeSlider={(val) => this.setState({ length: val })}
