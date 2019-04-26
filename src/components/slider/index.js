@@ -7,7 +7,7 @@ import PropTypes from "prop-types"
 
 import styles from './Slider.module.css';
 
-const Slider = ({ min, max, onChangeSlider, unit, step }) => (
+const Slider = ({ min, max, onChangeSlider, unit, step, defaultValue }) => (
   <div className={styles.rowContainer}>
     <AntSlider
       className={styles.slider}
@@ -16,6 +16,7 @@ const Slider = ({ min, max, onChangeSlider, unit, step }) => (
       max={max}
       tipFormatter={val => `${val}${(unit && unit.length > 0) ? unit : ''}`}
       step={step}
+      defaultValue={defaultValue}
     />
   </div>
 )
@@ -32,6 +33,7 @@ Slider.propTypes = {
   onChangeSlider: PropTypes.func.isRequired,
   unit: PropTypes.string,
   step: PropTypes.number,
+  defaultValue: PropTypes.number,
 }
 
 export default Slider;
