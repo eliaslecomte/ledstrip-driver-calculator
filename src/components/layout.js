@@ -19,6 +19,10 @@ const Layout = ({ children }) => (
         site {
           siteMetadata {
             title
+            authors {
+              elias { url }
+              thib { url }
+            }
           }
         }
       }
@@ -38,7 +42,10 @@ const Layout = ({ children }) => (
           <footer>
             © {new Date().getFullYear()}, Built with
             {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
+            <a href="https://www.gatsbyjs.org">Gatsby</a>,
+            by <a href={data.site.siteMetadata.authors.elias.url} target="_blank" rel="noopener noreferrer">Elias Lecomte</a>
+            {` `}&amp;{` `}
+            <a href={data.site.siteMetadata.authors.thib.url} target="_blank" rel="noopener noreferrer">Thibault Maekelbergh</a>
           </footer>
         </div>
       </>

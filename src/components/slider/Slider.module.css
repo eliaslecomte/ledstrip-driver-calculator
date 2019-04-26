@@ -1,0 +1,11 @@
+.rowContainer {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.slider {
+  flex: 1;
+}

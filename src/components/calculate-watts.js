@@ -1,56 +1,63 @@
 import React from "react"
+import Slider from './slider';
 
 class CalculateWatts extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { watt: '' };
-  
-      this.handleSetLength = this.handleSetLength.bind(this);
-      this.handleSetNumberOfLedsPerMeter = this.handleSetNumberOfLedsPerMeter.bind(this);
-      this.handleSetMaximumPowerDrawPerLed = this.handleSetMaximumPowerDrawPerLed.bind(this);
+    state = {
+      watt: ''
     }
-  
-    handleSetLength(event) {
-      this.setState({ length: event.target.value })
-    }
-  
-    handleSetNumberOfLedsPerMeter(event) {
-      this.setState({ numberOfLedsPerMeter: event.target.value });
-    }
-  
-    handleSetMaximumPowerDrawPerLed(event) {
-      this.setState({ maximumPowerDrawPerLed: event.target.value });
-    }
-  
+
     get wattRequired() {
       return this.state.length * this.state.numberOfLedsPerMeter * this.state.maximumPowerDrawPerLed;
     }
-  
+
+    get canCalculate() {
+      return (
+        this.state.length && this.state.numberOfLedsPerMeter && this.state.maximumPowerDrawPerLed
+      )
+    }
+
     render() {
       return (
         <div>
           <form onSubmit={this.handleSubmit}>
-            <p>
-              <label>
-                How long is your ledstrip (in meter): 
-                <input type="numeric" name="length" onChange={this.handleSetLength} />
-              </label>
-            </p>
-            <p>
-              <label>
-                How many leds per meter:
-                <input type="numeric" name="numberOfLedsPerMeter" onChange={this.handleSetNumberOfLedsPerMeter} />
-              </label>
-            </p>
-            <p>
-              <label>
-                Maximum power draw per led:
-                <input type="numeric" name="maximumPowerDrawPerLed" onChange={this.handleSetMaximumPowerDrawPerLed} />
-              </label>
-            </p>
+            <div>
+              <h3>
+                <span role="img" aria-label="ruler emoji">📏 </span>
+                How long is your LED strip? (in meter)
+              </h3>
+              <Slider
+                max={10}
+                unit=" Meter"
+                onChangeSlider={(val) => this.setState({ length: val })}
+              />
+            </div>
+            <div>
+              <h3>
+                <span role="img" aria-label="bulb emoji">💡 </span>
+                How many LEDS per meter?
+              </h3>
+              <Slider
+                max={10}
+                unit=" LEDs"
+                onChangeSlider={(val) => this.setState({ numberOfLedsPerMeter: val })}
+              />
+            </div>
+            <div>
+              <h3>
+                <span role="img" aria-label="plug emoji">🔌 </span>
+                Max. power draw per led?
+              </h3>
+              <Slider
+                max={10}
+                onChangeSlider={(val) => this.setState({ maximumPowerDrawPerLed: val })}
+                step={0.5}
+              />
+            </div>
           </form>
-  
-          <p>You need: {this.wattRequired} watt.</p>
+          {this.canCalculate
+            ? <p>You need: {this.wattRequired} watt.</p>
+            : <p>Fill in the values above to calculate total watt needed</p>
+          }
         </div>
       );
     }
