@@ -36,9 +36,31 @@ class CalculateWatts extends React.Component {
       return (this.wattRequired / 5).toFixed(1);
     }
 
+    componentDidMount() {
+      const search = window.location.search;
+      if (!search.startsWith('?code=')) {
+        return;
+      }
+
+      const data = search.replace('?code=', '');
+      const urlState = JSON.parse(window.atob(data));
+      this.setState({ ...urlState });
+    }
+
+    componentDidUpdate() {
+      const { length, numberOfLedsPerMeter, maximumPowerDrawPerLed } = this.state;
+      const encodedState = window.btoa(JSON.stringify({ length, numberOfLedsPerMeter, maximumPowerDrawPerLed }));
+      window.history.replaceState(
+        null,
+        null,
+        `?code=${encodedState}`
+      );
+    }
+
     render() {
       const canCalculate = this.canCalculate;
       const wattRequired = this.wattRequired;
+      const { length, numberOfLedsPerMeter, maximumPowerDrawPerLed} = this.state;
       return (
         <div>
           <form>
@@ -48,10 +70,11 @@ class CalculateWatts extends React.Component {
                 How long is your LED strip? (in meter)
               </h3>
               <Slider
-                min={1}
+                min={0.5}
                 max={20}
-                defaultValue={this.state.length}
-                unit=" meter"
+                step={0.5}
+                value={length}
+                unit="m"
                 onChangeSlider={(val) => this.setState({ length: val })}
               />
             </div>
@@ -62,8 +85,8 @@ class CalculateWatts extends React.Component {
               </h3>
               <Slider
                 max={120}
-                defaultValue={this.state.numberOfLedsPerMeter}
-                unit=" LEDs"
+                value={numberOfLedsPerMeter}
+                unit="LEDs"
                 onChangeSlider={(val) => this.setState({ numberOfLedsPerMeter: val })}
               />
             </div>
@@ -74,8 +97,8 @@ class CalculateWatts extends React.Component {
               </h3>
               <Slider
                 max={1}
-                defaultValue={this.state.maximumPowerDrawPerLed}
-                unit=" W"
+                value={maximumPowerDrawPerLed}
+                unit="W"
                 onChangeSlider={(val) => this.setState({ maximumPowerDrawPerLed: val })}
                 step={0.01}
               />
