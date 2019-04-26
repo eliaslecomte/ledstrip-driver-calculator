@@ -1,9 +1,14 @@
 import React from "react"
 import Slider from './slider';
 
-const ledProperty = {
-    marginTop: '25px',
-  };
+const styles = {
+  ledProperty: {
+    marginTop: '50px',
+  },
+  wattRequiredText: {
+    fontSize: '22px',
+  }
+};
 
 class CalculateWatts extends React.Component {
     state = {
@@ -14,7 +19,7 @@ class CalculateWatts extends React.Component {
     }
 
     get wattRequired() {
-      return this.state.length * this.state.numberOfLedsPerMeter * this.state.maximumPowerDrawPerLed;
+      return (this.state.length * this.state.numberOfLedsPerMeter * this.state.maximumPowerDrawPerLed).toFixed(2);
     }
 
     get canCalculate() {
@@ -23,11 +28,21 @@ class CalculateWatts extends React.Component {
       )
     }
 
+    get amp12Volt() {
+      return (this.wattRequired / 12).toFixed(1);
+    }
+
+    get amp5Volt() {
+      return (this.wattRequired / 5).toFixed(1);
+    }
+
     render() {
+      const canCalculate = this.canCalculate;
+      const wattRequired = this.wattRequired;
       return (
         <div>
-          <form onSubmit={this.handleSubmit}>
-            <div style={ledProperty}>
+          <form>
+            <div style={styles.ledProperty}>
               <h3>
                 <span role="img" aria-label="ruler emoji">📏 </span>
                 How long is your LED strip? (in meter)
@@ -36,11 +51,11 @@ class CalculateWatts extends React.Component {
                 min={1}
                 max={20}
                 defaultValue={this.state.length}
-                unit=" Meter"
+                unit=" meter"
                 onChangeSlider={(val) => this.setState({ length: val })}
               />
             </div>
-            <div style={ledProperty}>
+            <div style={styles.ledProperty}>
               <h3>
                 <span role="img" aria-label="bulb emoji">💡 </span>
                 How many LEDS per meter?
@@ -52,7 +67,7 @@ class CalculateWatts extends React.Component {
                 onChangeSlider={(val) => this.setState({ numberOfLedsPerMeter: val })}
               />
             </div>
-            <div style={ledProperty}>
+            <div style={styles.ledProperty}>
               <h3>
                 <span role="img" aria-label="plug emoji">🔌 </span>
                 Max. power draw per led?
@@ -66,10 +81,11 @@ class CalculateWatts extends React.Component {
               />
             </div>
           </form>
-          {this.canCalculate
-            ? <p>You need: {this.wattRequired} watt.</p>
-            : <p>Fill in the values above to calculate total watt needed</p>
+          {canCalculate
+            ? <p style={styles.wattRequiredText}>You need at least {wattRequired} watt.</p>
+            : <p style={styles.wattRequiredText}>Fill in the values above to calculate total watt needed</p>
           }
+          {canCalculate && <p>When using a 5V ledstrip {this.amp5Volt} A is the equivalent of {wattRequired} W.</p> }
         </div>
       );
     }
