@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Ledstrip Driver Calculator`,
+    title: `LED strip driver calculator`,
     description: `Calculate what driver your ledstrip needs`,
     authors: {
       elias: {
@@ -20,17 +20,15 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Ledstrip Driver Calculator`,
-        short_name: `Ledstrip Calculator`,
+        name: `LED strip driver calculator`,
+        short_name: `Ledstrip calculator`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        // TODO: add icon for PWA
         icon: `src/images/ws2812b_led_strip.png`,
       },
     },
-    // TODO: enable PWA
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

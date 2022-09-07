@@ -93,7 +93,7 @@ class CalculateWatts extends React.Component {
             <div style={styles.ledProperty}>
               <h3>
                 <span role="img" aria-label="plug emoji">🔌 </span>
-                Max. power draw per led?
+                Max. power draw per LED?
               </h3>
               <Slider
                 max={1}
@@ -108,7 +108,7 @@ class CalculateWatts extends React.Component {
             ? <p style={styles.wattRequiredText}>You need at least {wattRequired} watt.</p>
             : <p style={styles.wattRequiredText}>Fill in the values above to calculate total watt needed</p>
           }
-          {canCalculate ? <p>When using a 5V ledstrip {this.amp5Volt} A is the equivalent of {wattRequired} W.</p> : null}
+          {canCalculate ? <p>When using a 5V LED strip {this.amp5Volt} A is the equivalent of {wattRequired} W.</p> : null}
         </div>
       );
     }
