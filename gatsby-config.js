@@ -5,7 +5,7 @@ module.exports = {
     authors: {
       elias: {
         username: `@eliaslecomte`,
-        url: 'https://createweb.be',
+        url: 'https://eliaslecomte.be',
       },
       thib: {
         username: '@thibmaek',
